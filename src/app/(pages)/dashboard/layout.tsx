@@ -7,10 +7,10 @@ function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex min-h-screen flex-col bg-gray-100 w-full">
+    <section className="flex min-h-screen flex-col bg-gray-100 w-full items-center">
       <Navbar />
-      {children}
-    </main>
+      <article className="flex items-center max-w-7xl justify-center h-full flex-col my-4">{children}</article>
+    </section>
   );
 }
 
