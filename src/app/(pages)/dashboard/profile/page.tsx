@@ -2,27 +2,29 @@
 import Modal from "@/app/components/Modal";
 import Profile from "@/app/components/Profile";
 import { ProfileProps } from "@/app/interfaces/PostPageIntefaces";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 
-const user = {
-  name: "Tom Cook",
-  email: "Jt7zH@example.com",
-  companyInfo:
-    "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus illo, aut laboriosam officia nesciunt laudantium eius voluptas hic voluptatum est? Sunt ipsam eos dolor! Aliquam facere at veritatis quisquam eius!",
-};
 const ProfilePage = () => {
   const [open, setOpen] = useState(false);
   const toggleModal = () => setOpen(!open);
 
   const [profile, setProfile] = useState<ProfileProps>({
-    name: user.name,
-    email: user.email,
-    companyInfo: user.companyInfo,
+    name: "",
+    email: "",
+    companyInfo: "",
   });
 
   useEffect(() => {
-    console.log(profile);
-  }, [profile]);
+    const decodedToken = jwtDecode(localStorage.getItem("token")!);
+    axios
+      .get(`http://localhost:4000/auth/profile/${decodedToken.id}`)
+      .then((res) => {
+        console.log(res.data);
+        setProfile(res.data);
+      });
+  }, []);
 
   return (
     <div className="flex flex-col h-full items-center w-4/5 justify-between border-t min border-gray-200 bg-white px-4 py-3 sm:px-6">

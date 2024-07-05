@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { ModalProps } from "../interfaces/PostPageIntefaces";
+import axios from "axios";
 
 const Modal = ({ open, setOpen, setProfile, profile }: ModalProps) => {
   const closeModal = () => setOpen(false);
 
   const editProfile = () => {
     setProfile({ name, email, companyInfo });
-    console.log(profile);
+    axios.put(`http://localhost:4000/auth/edit/${profile._id}`, {
+      name,
+      email,
+      companyInfo,
+    })
     closeModal();
   };
 
